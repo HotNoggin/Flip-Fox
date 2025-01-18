@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bneju5o4ra433"]
+
+[ext_resource type="Texture2D" uid="uid://daarwuehyq7a8" path="res://assets/sprites/coin.png" id="1_7q88r"]
+
+[resource]
+albedo_texture = ExtResource("1_7q88r")
+metallic = 0.25
+metallic_specular = 0.0
+roughness = 0.59
+emission_enabled = true
+emission = Color(0.909903, 0.739677, 3.85046e-07, 1)
+emission_operator = 1
+texture_filter = 0

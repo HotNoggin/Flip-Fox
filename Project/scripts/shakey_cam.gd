@@ -1,32 +1,26 @@
 extends Node3D
  
-@onready var noise = FastNoiseLite.new()
- 
-@export var decay: float = 0.0
-@export var amplitude: float = 0.1
-@export var pos_min: Vector3 = Vector3.ONE * -0.1
-@export var pos_max: Vector3 = Vector3.ONE * 0.1
- 
-var trauma: float = 1.0
-var NOISE_SPEED: float = 0.2
-var _noise_y: float = 0
+@export var distance: float = 0.005
+@export var speed_1: float = 200.0
+@export var speed_2: float = 38.0
+@export var speed_3: float = 160
+
+var velocity: Vector3
+var time_1: float
+var time_2: float
+var time_3: float
 
 
-func _ready():
-	randomize()
-	noise.seed = randi()
-	noise.noise_type = FastNoiseLite.TYPE_PERLIN
- 
-
-func _physics_process(_delta):
-	if not is_zero_approx(trauma):
-		_noise_y += NOISE_SPEED
-		_shake()
-
-
-func _shake():
-	var amount = trauma
-	position.x = amplitude * amount * noise.get_noise_2d(noise.seed, _noise_y)
-	position.y = amplitude * amount * noise.get_noise_2d(noise.seed * 2, _noise_y)
-	position.z = amplitude * amount * noise.get_noise_2d(noise.seed * 3, _noise_y)
-	position = position.clamp(pos_min, pos_max)
+func _physics_process(delta: float):
+	time_1 = wrapf(time_1 + (delta * speed_1), 0, 359)
+	time_2 = wrapf(time_2 + (delta * speed_2), 0, 359)
+	time_3 = wrapf(time_3 + (delta * speed_3), 0, 359)
+	var sin_1: float = sin(deg_to_rad(time_1))
+	var sin_2: float = sin(deg_to_rad(time_2))
+	var sin_3: float = sin(deg_to_rad(time_3))
+	var cos_1: float = cos(deg_to_rad(time_3))
+	var cos_2: float = cos(deg_to_rad(time_2))
+	var offset_y: float = (sin_1 + sin_2 + cos_1) / 3
+	var offset_x: float = (cos_2 + sin_1 + sin_3) / 3
+	position.y = offset_y * distance
+	position.x = offset_x * distance

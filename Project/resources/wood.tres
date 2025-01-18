@@ -20,6 +20,7 @@ color_ramp = SubResource("Gradient_beeew")
 noise = SubResource("FastNoiseLite_v7863")
 
 [resource]
+diffuse_mode = 1
 albedo_texture = SubResource("NoiseTexture2D_q3fqb")
 heightmap_scale = -16.0
 texture_filter = 0

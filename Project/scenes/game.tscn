@@ -9,6 +9,54 @@
 
 [node name="Game" type="Node3D"]
 
+[node name="Table" parent="." instance=ExtResource("2_c7s7n")]
+
+[node name="Coin" parent="." instance=ExtResource("3_3of4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.226081)
+
+[node name="Cards" type="Node3D" parent="."]
+
+[node name="CardLight1" type="SpotLight3D" parent="Cards"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.207439, 1.41979, 0.0699138)
+visible = false
+light_color = Color(0.953175, 0.491285, 0.355647, 1)
+spot_range = 1.0
+spot_attenuation = -0.05
+spot_angle = 12.2
+spot_angle_attenuation = 1.80249
+
+[node name="CardLight2" type="SpotLight3D" parent="Cards"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.00440362, 1.41979, 0.0343233)
+visible = false
+light_color = Color(0.953175, 0.491285, 0.355647, 1)
+spot_range = 1.0
+spot_attenuation = -0.05
+spot_angle = 12.2
+spot_angle_attenuation = 1.80249
+
+[node name="CardLight3" type="SpotLight3D" parent="Cards"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.205578, 1.41979, 0.0698832)
+visible = false
+light_color = Color(0.953175, 0.491285, 0.355647, 1)
+spot_range = 1.0
+spot_attenuation = -0.05
+spot_angle = 12.2
+spot_angle_attenuation = 1.80249
+
+[node name="CardHead" parent="Cards" node_paths=PackedStringArray("light") instance=ExtResource("1_ybqll")]
+transform = Transform3D(0.736753, -0.138266, 0.661875, -0.289142, 0.820433, 0.493241, -0.611222, -0.554773, 0.564478, -0.201526, 1.06573, 0.1043)
+texture = ExtResource("2_7ye2o")
+light = NodePath("../CardLight1")
+
+[node name="CardTail" parent="Cards" node_paths=PackedStringArray("light") instance=ExtResource("1_ybqll")]
+transform = Transform3D(1, 0, 0, 0, 0.916802, 0.399341, 0, -0.399341, 0.916802, 0, 1.06573, 0.0416647)
+texture = ExtResource("3_uk3r8")
+light = NodePath("../CardLight2")
+
+[node name="CardLuck" parent="Cards" node_paths=PackedStringArray("light") instance=ExtResource("1_ybqll")]
+transform = Transform3D(0.773041, 0.32157, -0.546809, -0.089077, 0.908477, 0.40833, 0.628071, -0.266948, 0.730935, 0.219, 1.05295, 0.0766437)
+light = NodePath("../CardLight3")
+
 [node name="CamPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.07734, 0.135156)
 
@@ -20,20 +68,9 @@ transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0,
 fov = 50.0
 script = ExtResource("1_3e2dj")
 
-[node name="CardHead" parent="." instance=ExtResource("1_ybqll")]
-transform = Transform3D(0.736753, -0.138266, 0.661875, -0.289142, 0.820433, 0.493241, -0.611222, -0.554773, 0.564478, -0.201526, 1.14478, 0.171656)
-texture = ExtResource("2_7ye2o")
+[node name="Lights" type="Node3D" parent="."]
 
-[node name="CardTail" parent="." instance=ExtResource("1_ybqll")]
-transform = Transform3D(1, 0, 0, 0, 0.916802, 0.399341, 0, -0.399341, 0.916802, 0, 1.14478, 0.109021)
-texture = ExtResource("3_uk3r8")
-
-[node name="CardLuck" parent="." instance=ExtResource("1_ybqll")]
-transform = Transform3D(0.773041, 0.32157, -0.546809, -0.089077, 0.908477, 0.40833, 0.628071, -0.266948, 0.730935, 0.219, 1.132, 0.144)
-
-[node name="Table" parent="." instance=ExtResource("2_c7s7n")]
-
-[node name="CenterLight3D" type="SpotLight3D" parent="."]
+[node name="CenterLight" type="SpotLight3D" parent="Lights"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2.5, 0)
 light_color = Color(0.945343, 0.634748, 0.563364, 1)
 light_energy = 0.612
@@ -42,7 +79,7 @@ spot_attenuation = 2.21
 spot_angle = 16.9
 spot_angle_attenuation = 0.5
 
-[node name="OuterLight3D" type="SpotLight3D" parent="."]
+[node name="OuterLight" type="SpotLight3D" parent="Lights"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2.5, 0)
 light_color = Color(0.820401, 0.326196, 0.174628, 1)
 spot_range = 3.0
@@ -50,7 +87,6 @@ spot_attenuation = 6.21
 spot_angle = 26.3794
 spot_angle_attenuation = 0.5
 
-[node name="Buttons" type="Node3D" parent="."]
-
-[node name="Coin" parent="." instance=ExtResource("3_3of4e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.226081)
+[connection signal="click" from="Cards/CardHead" to="Coin" method="head"]
+[connection signal="click" from="Cards/CardTail" to="Coin" method="tail"]
+[connection signal="click" from="Cards/CardLuck" to="Coin" method="luck"]

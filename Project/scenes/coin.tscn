@@ -1,32 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://c0f01dnqjd3ww"]
+[gd_scene load_steps=10 format=3 uid="uid://c0f01dnqjd3ww"]
 
-[ext_resource type="Texture2D" uid="uid://cf3w0csbbxl17" path="res://assets/sprites/coin_heads.png" id="1_1wivt"]
-[ext_resource type="Texture2D" uid="uid://d180quenw6wl4" path="res://assets/sprites/coin_tails.png" id="2_kit0s"]
-
-[sub_resource type="Animation" id="Animation_uy7dy"]
-resource_name = "spin"
-length = 0.4
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Spinner:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 1.5708), Vector3(0, 0, 3.14159), Vector3(0, 0, 4.71239), Vector3(0, 0, 6.28319)]
-}
+[ext_resource type="Script" path="res://scripts/coin.gd" id="1_lnmt6"]
+[ext_resource type="Material" uid="uid://bneju5o4ra433" path="res://resources/coin.tres" id="2_071ce"]
+[ext_resource type="ArrayMesh" uid="uid://b2exufwpvelbl" path="res://assets/models/coin.obj" id="3_ap642"]
 
 [sub_resource type="Animation" id="Animation_i3cjd"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Spinner:rotation")
+tracks/0/path = NodePath("Jumper/Spinner:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -36,37 +19,97 @@ tracks/0/keys = {
 "values": [Vector3(0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_uy7dy"]
+resource_name = "spin"
+length = 0.2
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Jumper/Spinner:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 1.5708), Vector3(0, 0, 3.14159), Vector3(0, 0, 4.71239), Vector3(0, 0, 6.28319)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_81xug"]
 _data = {
 "RESET": SubResource("Animation_i3cjd"),
 "spin": SubResource("Animation_uy7dy")
 }
 
-[node name="Coin" type="Node3D"]
+[sub_resource type="Animation" id="Animation_s8fnu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Jumper:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
 
-[node name="Spinner" type="Node3D" parent="."]
+[sub_resource type="Animation" id="Animation_2d5oj"]
+resource_name = "flip"
+length = 0.7
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Jumper:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.22, 0), Vector3(0, 0.3, 0), Vector3(0, 0.22, 0), Vector3(0, 0, 0)]
+}
 
-[node name="Heads" type="Sprite3D" parent="Spinner"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
-cast_shadow = 2
-pixel_size = 0.003
-shaded = true
-double_sided = false
-alpha_cut = 1
-texture_filter = 0
-texture = ExtResource("1_1wivt")
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lnvl3"]
+_data = {
+"RESET": SubResource("Animation_s8fnu"),
+"flip": SubResource("Animation_2d5oj")
+}
 
-[node name="Tails" type="Sprite3D" parent="Spinner"]
-transform = Transform3D(-1, 8.74228e-08, -3.82137e-15, 0, -4.37114e-08, -1, -8.74228e-08, -1, 4.37114e-08, 0, 0, 0)
-cast_shadow = 2
-pixel_size = 0.003
-shaded = true
-double_sided = false
-alpha_cut = 1
-texture_filter = 0
-texture = ExtResource("2_kit0s")
+[node name="Coin" type="Node3D" node_paths=PackedStringArray("flip_animator", "spin_animator", "spinner")]
+script = ExtResource("1_lnmt6")
+flip_animator = NodePath("Flip")
+spin_animator = NodePath("Spin")
+spinner = NodePath("Jumper/Spinner")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="Jumper" type="Node3D" parent="."]
+
+[node name="Spinner" type="Node3D" parent="Jumper"]
+
+[node name="Coin" type="MeshInstance3D" parent="Jumper/Spinner"]
+transform = Transform3D(2.86603e-16, 6.55671e-09, -0.15, 0.15, -6.55671e-09, 5.36013e-22, -6.55671e-09, -0.15, -6.55671e-09, 0, 0, 0)
+material_override = ExtResource("2_071ce")
+mesh = ExtResource("3_ap642")
+skeleton = NodePath("../..")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Jumper"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.020523, 0)
+light_color = Color(0.97793, 0.610941, 0.515047, 1)
+light_energy = 0.709
+omni_range = 0.114
+omni_attenuation = 0.25
+
+[node name="Spin" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_81xug")
+}
+
+[node name="Flip" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lnvl3")
 }

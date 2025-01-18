@@ -4,12 +4,14 @@ extends Area3D
 
 signal click
 
+@export var enabled: bool = true
 @export var texture: Texture2D:
 	set(val):
 		if sprite:
 			sprite.texture = val
 		texture = val
 @export var sprite: SpriteBase3D
+@export var light: Light3D
 @export var spinner: Node3D
 @export_group("Hover", "hover_")
 @export var hover_scale: Vector3 = Vector3.ONE * 1.2
@@ -23,13 +25,15 @@ func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 	if Input.is_action_just_pressed("click"):
-		if is_hovered:
+		if is_hovered and enabled:
 			click.emit()
 	if is_hovered:
+		light.visible = true
 		scale = scale.move_toward(hover_scale, hover_speed * delta)
 		spinner.rotation_degrees.y = move_toward(
 			spinner.rotation_degrees.y, -180, hover_rotation_speed * delta)
 	else:
+		light.visible = false
 		scale = scale.move_toward(Vector3.ONE, hover_speed * delta)
 		spinner.rotation_degrees.y = move_toward(
 			spinner.rotation_degrees.y, 0, hover_rotation_speed * delta)
