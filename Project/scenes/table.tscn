@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4q6w1hpqu0v1"]
+
+[ext_resource type="PackedScene" uid="uid://cgse1p4wufmqe" path="res://assets/models/table.gltf" id="1_jrj2c"]
+[ext_resource type="Material" uid="uid://bulkxkaibj8kc" path="res://resources/wood.tres" id="2_lncdq"]
+
+[node name="Table" instance=ExtResource("1_jrj2c")]
+
+[node name="leg" parent="Node" index="0"]
+material_override = ExtResource("2_lncdq")
+
+[node name="cuboid" parent="Node" index="1"]
+material_override = ExtResource("2_lncdq")
+
+[node name="cuboid2" parent="Node" index="2"]
+material_override = ExtResource("2_lncdq")
+
+[node name="cuboid3" parent="Node" index="3"]
+material_override = ExtResource("2_lncdq")
+
+[node name="cuboid4" parent="Node" index="4"]
+material_override = ExtResource("2_lncdq")
+
+[node name="leg2" parent="Node" index="5"]
+material_override = ExtResource("2_lncdq")
+
+[node name="leg3" parent="Node" index="6"]
+material_override = ExtResource("2_lncdq")
+
+[node name="leg4" parent="Node" index="7"]
+material_override = ExtResource("2_lncdq")

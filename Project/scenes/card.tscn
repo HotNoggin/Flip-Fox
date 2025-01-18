@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://14ysrsdat3hx"]
+
+[ext_resource type="Script" path="res://scripts/card.gd" id="1_u7lj3"]
+[ext_resource type="Texture2D" uid="uid://dfjqumek4suod" path="res://assets/sprites/card_luck.png" id="3_fg5po"]
+[ext_resource type="Texture2D" uid="uid://bpch3h5e1fytn" path="res://assets/sprites/card_back.png" id="4_k3mka"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_clske"]
+radius = 0.1
+
+[node name="Card" type="Area3D" node_paths=PackedStringArray("sprite", "spinner")]
+script = ExtResource("1_u7lj3")
+texture = ExtResource("3_fg5po")
+sprite = NodePath("Spinner/Front")
+spinner = NodePath("Spinner")
+hover_scale = Vector3(1.1, 1.1, 1.1)
+hover_speed = 4.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_clske")
+
+[node name="Spinner" type="Node3D" parent="."]
+
+[node name="Front" type="Sprite3D" parent="Spinner"]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
+pixel_size = 0.003
+shaded = true
+double_sided = false
+texture_filter = 0
+texture = ExtResource("3_fg5po")
+
+[node name="Back" type="Sprite3D" parent="Spinner"]
+pixel_size = 0.003
+shaded = true
+double_sided = false
+texture_filter = 0
+texture = ExtResource("4_k3mka")

@@ -1,0 +1,72 @@
+[gd_scene load_steps=6 format=3 uid="uid://c0f01dnqjd3ww"]
+
+[ext_resource type="Texture2D" uid="uid://cf3w0csbbxl17" path="res://assets/sprites/coin_heads.png" id="1_1wivt"]
+[ext_resource type="Texture2D" uid="uid://d180quenw6wl4" path="res://assets/sprites/coin_tails.png" id="2_kit0s"]
+
+[sub_resource type="Animation" id="Animation_uy7dy"]
+resource_name = "spin"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Spinner:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 1.5708), Vector3(0, 0, 3.14159), Vector3(0, 0, 4.71239), Vector3(0, 0, 6.28319)]
+}
+
+[sub_resource type="Animation" id="Animation_i3cjd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Spinner:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_81xug"]
+_data = {
+"RESET": SubResource("Animation_i3cjd"),
+"spin": SubResource("Animation_uy7dy")
+}
+
+[node name="Coin" type="Node3D"]
+
+[node name="Spinner" type="Node3D" parent="."]
+
+[node name="Heads" type="Sprite3D" parent="Spinner"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+cast_shadow = 2
+pixel_size = 0.003
+shaded = true
+double_sided = false
+alpha_cut = 1
+texture_filter = 0
+texture = ExtResource("1_1wivt")
+
+[node name="Tails" type="Sprite3D" parent="Spinner"]
+transform = Transform3D(-1, 8.74228e-08, -3.82137e-15, 0, -4.37114e-08, -1, -8.74228e-08, -1, 4.37114e-08, 0, 0, 0)
+cast_shadow = 2
+pixel_size = 0.003
+shaded = true
+double_sided = false
+alpha_cut = 1
+texture_filter = 0
+texture = ExtResource("2_kit0s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_81xug")
+}
