@@ -101,6 +101,7 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.020523, 0)
 light_color = Color(0.97793, 0.610941, 0.515047, 1)
 light_energy = 0.709
+light_cull_mask = 4294967293
 omni_range = 0.114
 omni_attenuation = 0.25
 

@@ -6,25 +6,33 @@
 [node name="Table" instance=ExtResource("1_jrj2c")]
 
 [node name="leg" parent="Node" index="0"]
+layers = 2
 material_override = ExtResource("2_lncdq")
 
 [node name="cuboid" parent="Node" index="1"]
+layers = 2
 material_override = ExtResource("2_lncdq")
 
 [node name="cuboid2" parent="Node" index="2"]
+layers = 2
 material_override = ExtResource("2_lncdq")
 
 [node name="cuboid3" parent="Node" index="3"]
+layers = 2
 material_override = ExtResource("2_lncdq")
 
 [node name="cuboid4" parent="Node" index="4"]
+layers = 2
 material_override = ExtResource("2_lncdq")
 
 [node name="leg2" parent="Node" index="5"]
+layers = 2
 material_override = ExtResource("2_lncdq")
 
 [node name="leg3" parent="Node" index="6"]
+layers = 2
 material_override = ExtResource("2_lncdq")
 
 [node name="leg4" parent="Node" index="7"]
+layers = 2
 material_override = ExtResource("2_lncdq")

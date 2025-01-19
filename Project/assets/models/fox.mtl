@@ -1,0 +1,6 @@
+# Made in Blockbench 4.12.1
+newmtl m_9f35bfda-b4b8-d6dc-f2c0-003daa781d95
+map_Kd fox_texture.png
+newmtl m_ac2746a2-8aaf-9a3f-c56e-466e46d142a5
+map_Kd gun.png
+newmtl none

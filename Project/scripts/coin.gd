@@ -1,4 +1,7 @@
+class_name Coin
 extends Node3D
+
+signal landed
 
 @export var flip_animator: AnimationPlayer
 @export var spin_animator: AnimationPlayer
@@ -40,6 +43,7 @@ func land(_anim: String) -> void:
 		spinner.rotation_degrees.z = 0
 	else:
 		spinner.rotation_degrees.z = 180
+	landed.emit()
 
 
 func set_cards(enabled: bool) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cj6v5ea7tw0yk"]
+[gd_scene load_steps=10 format=3 uid="uid://cj6v5ea7tw0yk"]
 
 [ext_resource type="Script" path="res://scripts/shakey_cam.gd" id="1_3e2dj"]
 [ext_resource type="PackedScene" uid="uid://14ysrsdat3hx" path="res://scenes/card.tscn" id="1_ybqll"]
@@ -6,10 +6,30 @@
 [ext_resource type="PackedScene" uid="uid://b4q6w1hpqu0v1" path="res://scenes/table.tscn" id="2_c7s7n"]
 [ext_resource type="PackedScene" uid="uid://c0f01dnqjd3ww" path="res://scenes/coin.tscn" id="3_3of4e"]
 [ext_resource type="Texture2D" uid="uid://c6rammqw04jjl" path="res://assets/sprites/card_tail.png" id="3_uk3r8"]
+[ext_resource type="PackedScene" uid="uid://dqw0havcksv0x" path="res://scenes/fox.tscn" id="7_ipq0s"]
+
+[sub_resource type="Gradient" id="Gradient_k7tid"]
+colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rev7j"]
+gradient = SubResource("Gradient_k7tid")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
 
 [node name="Game" type="Node3D"]
 
 [node name="Table" parent="." instance=ExtResource("2_c7s7n")]
+
+[node name="Decal" type="Decal" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.93562, 0.224)
+size = Vector3(0.25, 0.1, 0.25)
+texture_emission = SubResource("GradientTexture2D_rev7j")
+modulate = Color(1, 0.290544, 0.192626, 1)
+cull_mask = 1048574
 
 [node name="Coin" parent="." instance=ExtResource("3_3of4e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.226081)
@@ -79,6 +99,15 @@ spot_attenuation = 2.21
 spot_angle = 16.9
 spot_angle_attenuation = 0.5
 
+[node name="FoxLight" type="SpotLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 0.750596, -0.660762, 0, 0.660762, 0.750596, 0, 0.800568, -0.220941)
+light_color = Color(0.945343, 0.634748, 0.563364, 1)
+light_energy = 0.612
+spot_range = 0.695
+spot_attenuation = 0.39
+spot_angle = 31.08
+spot_angle_attenuation = 0.5
+
 [node name="OuterLight" type="SpotLight3D" parent="Lights"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2.5, 0)
 light_color = Color(0.820401, 0.326196, 0.174628, 1)
@@ -87,6 +116,11 @@ spot_attenuation = 6.21
 spot_angle = 26.3794
 spot_angle_attenuation = 0.5
 
+[node name="Fox" parent="." node_paths=PackedStringArray("coin") instance=ExtResource("7_ipq0s")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.9, -0.652)
+coin = NodePath("../Coin")
+
+[connection signal="landed" from="Coin" to="Fox" method="check_results"]
 [connection signal="click" from="Cards/CardHead" to="Coin" method="head"]
 [connection signal="click" from="Cards/CardTail" to="Coin" method="tail"]
 [connection signal="click" from="Cards/CardLuck" to="Coin" method="luck"]
