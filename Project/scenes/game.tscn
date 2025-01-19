@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cj6v5ea7tw0yk"]
+[gd_scene load_steps=12 format=3 uid="uid://cj6v5ea7tw0yk"]
 
 [ext_resource type="Script" path="res://scripts/shakey_cam.gd" id="1_3e2dj"]
 [ext_resource type="PackedScene" uid="uid://14ysrsdat3hx" path="res://scenes/card.tscn" id="1_ybqll"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://c0f01dnqjd3ww" path="res://scenes/coin.tscn" id="3_3of4e"]
 [ext_resource type="Texture2D" uid="uid://c6rammqw04jjl" path="res://assets/sprites/card_tail.png" id="3_uk3r8"]
 [ext_resource type="PackedScene" uid="uid://dqw0havcksv0x" path="res://scenes/fox.tscn" id="7_ipq0s"]
+[ext_resource type="Script" path="res://scripts/bobble.gd" id="8_fk5fh"]
+[ext_resource type="FontFile" uid="uid://bqdp34i4tp31k" path="res://resources/Pixelchunk.ttf" id="9_24my4"]
 
 [sub_resource type="Gradient" id="Gradient_k7tid"]
 colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 1)
@@ -77,6 +79,28 @@ light = NodePath("../CardLight2")
 transform = Transform3D(0.773041, 0.32157, -0.546809, -0.089077, 0.908477, 0.40833, 0.628071, -0.266948, 0.730935, 0.219, 1.05295, 0.0766437)
 light = NodePath("../CardLight3")
 
+[node name="Fox" parent="." node_paths=PackedStringArray("cash_label", "coin") instance=ExtResource("7_ipq0s")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.9, -0.652)
+cash_label = NodePath("../Cash/Bobble/BobbleLabel")
+coin = NodePath("../Coin")
+
+[node name="Cash" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.317, 1.127, 0.244)
+
+[node name="Bobble" type="Node3D" parent="Cash"]
+script = ExtResource("8_fk5fh")
+
+[node name="BobbleLabel" type="Label3D" parent="Cash/Bobble"]
+transform = Transform3D(-0.900781, -0.145618, 0.409133, 0.138794, 0.796162, 0.588949, -0.411497, 0.587299, -0.696957, 0.09924, -0.0554619, -0.293571)
+pixel_size = 0.001
+modulate = Color(0.65441, 0.298324, 0.199962, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "You have $10."
+font = ExtResource("9_24my4")
+font_size = 16
+outline_size = 0
+uppercase = true
+
 [node name="CamPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.07734, 0.135156)
 
@@ -115,10 +139,6 @@ spot_range = 3.0
 spot_attenuation = 6.21
 spot_angle = 26.3794
 spot_angle_attenuation = 0.5
-
-[node name="Fox" parent="." node_paths=PackedStringArray("coin") instance=ExtResource("7_ipq0s")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.9, -0.652)
-coin = NodePath("../Coin")
 
 [connection signal="landed" from="Coin" to="Fox" method="check_results"]
 [connection signal="click" from="Cards/CardHead" to="Coin" method="head"]
