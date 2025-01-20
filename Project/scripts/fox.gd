@@ -50,12 +50,12 @@ func make_call() -> void:
 
 func check_results() -> void:
 	#region: basic rules, coin check
-	var is_heads: bool = coin.is_heads
+	var result: bool = coin.is_heads
 	var upside: String = "tails"
-	var fox_won: bool = is_heads == my_call
-	if is_heads:
+	var fox_won: bool = result == my_call
+	if result:
 		upside = "heads"
-	all_results.append(is_heads)
+	all_results.append(result)
 	all_wins.append(fox_won)
 	
 	print("The coin lands on " + upside)
@@ -71,15 +71,18 @@ func check_results() -> void:
 		cash_sound.play()
 	if coin.is_lucky:
 		suspicion -= ai.luck_relief
+		print("- Lucky toss")
+	
+	print("The player has $" + str(player_cash))
 	#endregion
 	
 	#region: low suspicion
-	if is_heads == my_call:
+	if fox_won:
 		remarks = [
 			"Called it.", "The coin's on my side.", "Give me your money.",
 			"I'm just lucky.", "I knew it.", "I could just tell.", "I'm a coin whisperer.",
 			"Just like I said.", "Never doubted it.", "You owe me.", "Pay up.",
-			"That's " + str(my_bet) + ", buddy."
+			"That's $" + str(my_bet) + ", buddy."
 		]
 	else:
 		remarks = [
@@ -89,27 +92,74 @@ func check_results() -> void:
 		]
 	#endregion
 	
+	#region: mid suspicion
+	if suspicion >= 33:
+		if fox_won:
+			remarks = [
+				"A win.\nBut something feels off.", "That win didn't feel lucky.",
+				"Yes.\nAre you playing games?", "Pay up...\ntrickster...",
+				"That's $" + str(my_bet) +".\nBut was it fair?",
+				"This $" + str(my_bet) + " feels dirty.",
+				"$" + str(my_bet) + " from a trickster.", "This win feels strange.",
+				"Called it.\nBut I don't feel so lucky.", "I didn't expect " + upside + ".",
+				"Oh, it really is " + upside + "?"
+		]
+		else:
+			remarks = [
+				"You stole that win.", "This isn't luck.\nIt's trickery.",
+				"Are you some kind of thief?", "You're controling this.\nAren't you?",
+				"You're making me suspicious.", "Are you running a con?",
+				"That's not possible.\nYou're lying.", "None of this is right.",
+				"I smell a cheater.", "Someone's looking to get shot.",
+				"You made it land on " + upside + ".\nDidn't you?",
+				"That " + upside + " was forced.", "You're stealing from me.",
+				"That $" + str(my_bet) + " is stolen money.", "Lies.", "Cheater."
+			]
+	#endregion
+	
+	#region: high suspicion
+	if suspicion >= 67:
+		if fox_won:
+			remarks = [
+				"You think THAT will calm me!?", "This is all a CON!",
+				"You owe me more than that!", "$" + str(my_bet) + " won't hide LIES!",
+				"I smell a cheater!\nI SHOOT cheaters!"
+		]
+		else:
+			remarks = [
+				"You're CHEATING!", "That's NOT possible!", "You're a LIAR!",
+				"You're just a THIEF!", "I'm gonna SHOOT you!",
+				"When I run out of money,\nI'll run out of PATIENCE!",
+				"That $" + str(my_bet) + " is STOLEN!", "Someone's looking to DIE!",
+				"You MADE it land on " + upside + "!",
+				"That SHOULD have been " + choice + "!",
+				"You STOLE that $" + str(my_bet) + " from me!",
+				"You STOLE that " + choice + " from me!"
+			]
+	#endregion
+	
 	#region: coin streaks
 	var reversed_results: Array[bool] = all_results.duplicate()
 	reversed_results.reverse()
 	
 	if all_results.size() >= ai.coin_streak_size:
 		var coin_streak: Array[bool] = all_results.slice(-ai.coin_streak_size)
-		var end_coin: bool = coin_streak.front()
 		# Long streak of one side -> add suspicion
 		if not (TAILS in coin_streak) or not (HEADS in coin_streak):
 			suspicion += ai.coin_streak_val
 			var streak_length: int = 0
 			for coin_face: bool in reversed_results:
-				if coin_face != end_coin:
+				if coin_face != result:
 					break
 				streak_length+= 1
 			
+			print("+ Coin streak: " + str(streak_length))
 			remarks = [
-				"Wow!\nI've won " + str(streak_length) + " in a row!",
-				"Lucky!\nMy streak is at " + str(streak_length) + "!",
-				"\n Already at " + str(streak_length) + " this streak!",
-				"Yes!\n" + str(streak_length)  +" wins in a row!"
+				"Strange.\nThat's " + str(streak_length) + " " + upside + " in a row.",
+				"What is this?\n" + str(streak_length) + " " + upside + " in a row!?",
+				"Something's off!\n Already at "
+					+ str(streak_length) + " " + upside + " now!",
+				"What!?\n" + str(streak_length) + " " + upside + " in a row now!?"
 			]
 	#endregion
 	
@@ -128,6 +178,7 @@ func check_results() -> void:
 					break
 				streak_length+= 1
 			
+			print("- Win streak: " + str(streak_length))
 			remarks = [
 				"Wow!\nI've won " + str(streak_length) + " in a row!",
 				"Lucky!\nMy streak is at " + str(streak_length) + "!",
@@ -145,6 +196,8 @@ func check_results() -> void:
 				if did_win:
 					break
 				streak_length+= 1
+				
+			print("+ Lose streak: " + str(streak_length))
 			remarks = [
 				"Cheater!\nI've lost " + str(streak_length) + " in a row!",
 				"This is rigged!\nI've lost " + str(streak_length) + " in a row!",
@@ -153,12 +206,21 @@ func check_results() -> void:
 			]
 	#endregion
 	
+	#region: dangerous suspicion
+	if suspicion >= 90:
+		remarks = [
+			"FAKE!", "CON!", "LIAR!", "CHEATER!", "LIES!", "CHEAT!",
+			"I'M GONNA MURDER YOU!", "I WILL SHOOT!", "STOP THIS!",
+			"THIEF!", "YOU'RE GONNA DIE!", "YOU'RE GONNA PAY!"
+		]
+	#endregion
+	
 	#region: wrapup, win + lose
 	suspicion = clampi(suspicion, 0, 100)
 	
-	print("Suspicion: " + str(suspicion))
-	print("Flips made: " + str(all_results.size()))
-	print("-")
+	print("= Suspicion: " + str(suspicion))
+	print("  Flips made: " + str(all_results.size()))
+	print("")
 	
 	cash_label.text = "You have $" + str(player_cash) + "."
 	
