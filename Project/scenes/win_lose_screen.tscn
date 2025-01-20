@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3 uid="uid://j70dykgxtcxp"]
+
+[ext_resource type="Script" path="res://scripts/win_screen.gd" id="1_ky1kn"]
+[ext_resource type="FontFile" uid="uid://bqdp34i4tp31k" path="res://resources/Pixelchunk.ttf" id="2_7c4tx"]
+[ext_resource type="Resource" uid="uid://bscqd5cup0q5p" path="res://scenes/default_jam_difficulty_options.tres" id="2_khmli"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jel6k"]
+font = ExtResource("2_7c4tx")
+font_size = 32
+font_color = Color(0.881117, 0.580624, 0.484218, 1)
+
+[node name="WinLoseScreen" type="CanvasLayer" node_paths=PackedStringArray("blurb", "winlose", "score", "high")]
+script = ExtResource("1_ky1kn")
+main_path = "res://scenes/game.tscn"
+blurb = NodePath("Control/VBoxContainer/Blurb")
+winlose = NodePath("Control/VBoxContainer/WinLose")
+score = NodePath("Control/VBoxContainer/FinalScore")
+high = NodePath("Control/VBoxContainer/HighScore")
+information = ExtResource("2_khmli")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Blurb" type="Label" parent="Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "I'll say something [ERROR]"
+label_settings = SubResource("LabelSettings_jel6k")
+horizontal_alignment = 1
+
+[node name="WinLose" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "You may have survived [ERROR]"
+label_settings = SubResource("LabelSettings_jel6k")
+horizontal_alignment = 1
+
+[node name="FinalScore" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "You made $ERROR."
+label_settings = SubResource("LabelSettings_jel6k")
+horizontal_alignment = 1
+
+[node name="HighScore" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Your highest win is $ERROR."
+label_settings = SubResource("LabelSettings_jel6k")
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 64
+
+[node name="Continue" type="Label" parent="Control/MarginContainer"]
+layout_mode = 2
+text = "Click anywhere to play again."
+label_settings = SubResource("LabelSettings_jel6k")
+horizontal_alignment = 1

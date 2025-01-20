@@ -6,6 +6,10 @@ extends Node3D
 var time: float = 0.0
 
 
+func _ready() -> void:
+	time = randf_range(0, 359)
+
+
 func _process(delta: float) -> void:
 	time = wrapf(time + (delta * bobble_speed), 0, 359)
 	var sine: float = sin(deg_to_rad(time))

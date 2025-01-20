@@ -11,9 +11,16 @@ config_version=5
 [application]
 
 config/name="Flip Fox"
+config/description="Play a game of chance. Choose how the coin falls. Don't get caught."
 run/main_scene="res://scenes/game.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Hot Noggin Studios/Flip Fox"
 config/features=PackedStringArray("4.3")
-config/icon="res://assets/sprites/icon.png"
+config/icon="res://assets/sprites/card_back.png"
+
+[autoload]
+
+Transition="*res://scenes/transition.tscn"
 
 [display]
 

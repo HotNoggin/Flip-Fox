@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cj6v5ea7tw0yk"]
+[gd_scene load_steps=18 format=3 uid="uid://cj6v5ea7tw0yk"]
 
 [ext_resource type="Script" path="res://scripts/shakey_cam.gd" id="1_3e2dj"]
 [ext_resource type="PackedScene" uid="uid://14ysrsdat3hx" path="res://scenes/card.tscn" id="1_ybqll"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dqw0havcksv0x" path="res://scenes/fox.tscn" id="7_ipq0s"]
 [ext_resource type="Script" path="res://scripts/bobble.gd" id="8_fk5fh"]
 [ext_resource type="FontFile" uid="uid://bqdp34i4tp31k" path="res://resources/Pixelchunk.ttf" id="9_24my4"]
+[ext_resource type="AudioStream" uid="uid://cv4mots3yjed6" path="res://assets/sounds/looping_ambience.mp3" id="10_6cxpt"]
 
 [sub_resource type="Gradient" id="Gradient_k7tid"]
 colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 1)
@@ -22,6 +23,34 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 metadata/_snap_enabled = true
 
+[sub_resource type="Curve" id="Curve_qq20t"]
+_data = [Vector2(0, 0), 0.0, 3.75115, 0, 0, Vector2(0.181818, 1), 0.0, 0.0, 0, 0, Vector2(0.727273, 1), 0.0, 0.0, 0, 0, Vector2(0.975524, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_tb2kq"]
+curve = SubResource("Curve_qq20t")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ps8uf"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+initial_velocity_min = 0.02
+initial_velocity_max = 0.02
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = 0.00999776
+scale_curve = SubResource("CurveTexture_tb2kq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8woeq"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.490196, 0.223529, 0.101961, 0.34902)
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_40bi6"]
+material = SubResource("StandardMaterial3D_8woeq")
+size = Vector2(0.005, 0.005)
+
 [node name="Game" type="Node3D"]
 
 [node name="Table" parent="." instance=ExtResource("2_c7s7n")]
@@ -33,8 +62,9 @@ texture_emission = SubResource("GradientTexture2D_rev7j")
 modulate = Color(1, 0.290544, 0.192626, 1)
 cull_mask = 1048574
 
-[node name="Coin" parent="." instance=ExtResource("3_3of4e")]
+[node name="Coin" parent="." node_paths=PackedStringArray("cards") instance=ExtResource("3_3of4e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.226081)
+cards = [NodePath("../Cards/CardHead"), NodePath("../Cards/CardTail"), NodePath("../Cards/CardLuck")]
 
 [node name="Cards" type="Node3D" parent="."]
 
@@ -78,6 +108,10 @@ light = NodePath("../CardLight2")
 [node name="CardLuck" parent="Cards" node_paths=PackedStringArray("light") instance=ExtResource("1_ybqll")]
 transform = Transform3D(0.773041, 0.32157, -0.546809, -0.089077, 0.908477, 0.40833, 0.628071, -0.266948, 0.730935, 0.219, 1.05295, 0.0766437)
 light = NodePath("../CardLight3")
+
+[node name="AudioListener3D" type="AudioListener3D" parent="Cards"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 1.03736, 0.277322)
+current = true
 
 [node name="Fox" parent="." node_paths=PackedStringArray("cash_label", "coin") instance=ExtResource("7_ipq0s")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.9, -0.652)
@@ -139,6 +173,19 @@ spot_range = 3.0
 spot_attenuation = 6.21
 spot_angle = 26.3794
 spot_angle_attenuation = 0.5
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_6cxpt")
+autoplay = true
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17744, 0.136986)
+amount = 30
+lifetime = 5.0
+preprocess = 5.0
+process_material = SubResource("ParticleProcessMaterial_ps8uf")
+draw_pass_1 = SubResource("QuadMesh_40bi6")
+metadata/_edit_lock_ = true
 
 [connection signal="landed" from="Coin" to="Fox" method="check_results"]
 [connection signal="click" from="Cards/CardHead" to="Coin" method="head"]

@@ -14,6 +14,7 @@ signal click
 @export var sprite: SpriteBase3D
 @export var light: Light3D
 @export var spinner: Node3D
+@export var flip_sound: AudioStreamPlayer3D
 @export_group("Bobble", "bobble_")
 @export var bobble_speed: float = 40
 @export var bobble_distance: float = 0.01
@@ -40,6 +41,7 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("click"):
 		if is_hovered and enabled:
+			print("Clicked card: " + name)
 			click.emit()
 	if is_hovered:
 		light.visible = true
@@ -54,6 +56,7 @@ func _process(delta: float) -> void:
 
 
 func _mouse_enter() -> void:
+	flip_sound.play()
 	is_hovered = true
 
 

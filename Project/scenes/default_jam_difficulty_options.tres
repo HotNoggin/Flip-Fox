@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DifficultyOptions" load_steps=2 format=3 uid="uid://bscqd5cup0q5p"]
+
+[ext_resource type="Script" path="res://scripts/difficulty_options.gd" id="1_tjv4v"]
+
+[resource]
+script = ExtResource("1_tjv4v")
+cash_suspicion = 1
+cash_relief = 1
+suspicion_limit = 100
+flip_count = 50
