@@ -21,6 +21,7 @@ var time: float
 var my_call: bool
 var my_bet: int
 var choice: String
+var win_streak_length: int = 1
 var all_results: Array[bool]
 var all_wins: Array[bool]
 var bet_tween: Tween
@@ -35,7 +36,9 @@ func _ready() -> void:
 
 func make_call() -> void:
 	my_call = randi_range(0, 1) == 1
-	my_bet = randi_range(2, 5)
+	my_bet = mini(randi_range(
+		ai.min_bet * win_streak_length, ai.max_bet * win_streak_length),
+		ai.absolute_max_bet)
 	choice = "tails"
 	if my_call:
 		choice = "heads"
@@ -86,7 +89,7 @@ func check_results() -> void:
 		]
 	else:
 		remarks = [
-			"...", "That should've been " + choice + ".", "That's strange.",
+			"But...", "That should've been " + choice + ".", "That's strange.",
 			"That isn't right...", "Why wasn't it " + choice + "?", "Just my luck.",
 			"Bad guess.", "I guess I owe you.", "Fine, take my $" + str(my_bet) + "."
 		]
@@ -107,10 +110,10 @@ func check_results() -> void:
 		else:
 			remarks = [
 				"You stole that win.", "This isn't luck.\nIt's trickery.",
-				"Are you some kind of thief?", "You're controling this.\nAren't you?",
+				"Are you some kind of thief?", "You're controlling this.\nAren't you?",
 				"You're making me suspicious.", "Are you running a con?",
 				"That's not possible.\nYou're lying.", "None of this is right.",
-				"I smell a cheater.", "Someone's looking to get shot.",
+				"I smell a cheater.", "You're looking to get shot.",
 				"You made it land on " + upside + ".\nDidn't you?",
 				"That " + upside + " was forced.", "You're stealing from me.",
 				"That $" + str(my_bet) + " is stolen money.", "Lies.", "Cheater."
@@ -121,7 +124,7 @@ func check_results() -> void:
 	if suspicion >= 67:
 		if fox_won:
 			remarks = [
-				"You think THAT will calm me!?", "This is all a CON!",
+				"Thought that would CALM me!?", "This is all a CON!",
 				"You owe me more than that!", "$" + str(my_bet) + " won't hide LIES!",
 				"I smell a cheater!\nI SHOOT cheaters!"
 		]
@@ -185,6 +188,9 @@ func check_results() -> void:
 				"\n Already at " + str(streak_length) + " this streak!",
 				"Yes!\n" + str(streak_length)  +" wins in a row!"
 			]
+			win_streak_length = streak_length
+		else:
+			win_streak_length = 1
 	
 	if all_wins.size() >= ai.loss_streak_size:
 		var win_streak: Array[bool] = all_wins.slice(-ai.loss_streak_size)

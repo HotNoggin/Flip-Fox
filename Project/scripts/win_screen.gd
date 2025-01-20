@@ -10,6 +10,13 @@ extends CanvasLayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	blurb.text = [
+		"Tip: Using LUCK may lower the fox's stress.",
+		"Tip: If the fox seems calm, grab some wins.",
+		"Tip: Keep the fox calm by losing intentionally.",
+		"Tip: Save your cheating for the biggest scores.",
+		"Tip: The fox gets more stressed the more he loses."
+	].pick_random()
 	if information.did_win:
 		winlose.text = "You weren't killed. Good job, trickster."
 		blurb.text = [
@@ -19,17 +26,8 @@ func _ready() -> void:
 	else:
 		if information.cash_made > 0:
 			winlose.text = "You were shot. Be careful next time."
-			blurb.text = [
-				"I knew you were cheating.", "I don't like a cheater.",
-				"Taste gunpowder, trickster."
-			].pick_random()
 		else:
 			winlose.text = "You were shot. Next time keep some cash."
-			blurb.text = [
-				"You have nothing left to give.", "Your wallet is empty.",
-				"You ran out of cash.", "You can't bet without cash.",
-				"You're all out of money."
-			].pick_random()
 			score.hide()
 			high.hide()
 	score.text = "You made $" + str(information.cash_made) + "."

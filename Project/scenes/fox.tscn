@@ -893,7 +893,9 @@ transform = Transform3D(-0.847317, 0, -0.531088, 0, 1, 0, 0.531088, 0, -0.847317
 pixel_size = 0.001
 modulate = Color(0.65441, 0.298324, 0.199962, 1)
 outline_modulate = Color(0, 0, 0, 0)
-text = "Don't cheat.
+text = "FLip it 50 times.
+
+Don't cheat.
 
 Or else."
 font = ExtResource("6_0kvt5")
